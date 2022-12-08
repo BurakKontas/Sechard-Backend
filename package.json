@@ -4,16 +4,32 @@
   "description": "Node.JS Rest API for Sechard Address Book Application",
   "main": "server.js",
   "scripts": {
-    "test": "node server.js"
+    "test": "jest",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BurakKontas/sechard-backend.git"
   },
+  "type": "module",
   "author": "Arda Burak Kontaş",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/BurakKontas/sechard-backend/issues"
   },
-  "homepage": "https://github.com/BurakKontas/sechard-backend#readme"
+  "homepage": "https://github.com/BurakKontas/sechard-backend#readme",
+  "dependencies": {
+    "babel-jest": "^29.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "^4.12.1",
+    "mongoose": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "ts-jest": "^29.0.3"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.19.6",
+    "jest": "^29.3.1"
+  }
 }

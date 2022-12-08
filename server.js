@@ -1,6 +1,11 @@
 import express, { json } from "express";
 import dotenv from 'dotenv';
+
 dotenv.config()
+
+import MongoDB from "./models/mongo.js";
+import User from "./models/user.js";
+import Contact from "./models/contact.js";
 
 const PORT = process.env.PORT;
 
