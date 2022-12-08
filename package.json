@@ -1,0 +1,19 @@
+{
+  "name": "sechard-backend",
+  "version": "1.0.0",
+  "description": "Node.JS Rest API for Sechard Address Book Application",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BurakKontas/sechard-backend.git"
+  },
+  "author": "Arda Burak Kontaş",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BurakKontas/sechard-backend/issues"
+  },
+  "homepage": "https://github.com/BurakKontas/sechard-backend#readme"
+}
