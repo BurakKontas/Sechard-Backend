@@ -2,9 +2,21 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    _id: { type: String, required: true },
-    dictionary: { type: Array, required: true}, //List<Contact>
+    _id: { type: String, required: true, validate: {
+        validator: (value) => {
+          console.log(value)
+          if(value.length == 0) throw "Bir ID girmelisiniz."
+        },
+      },
+    },
+    dictionary: { type: Array, required: true, validate: {
+        validator: (value) => {
+          if(value.length == 0) throw "Bir sözlük girmelisiniz."
+        },
+      }, 
+    }, //List<Contact>
     }, {
+  validateBeforeSave:true,
   timestamps: true,
 });
 

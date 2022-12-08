@@ -40,7 +40,7 @@ class MongoDB {
 
     async deleteDocuments(query) {
         await this.#connect().deleteMany(query).catch((err) => this.#error(err));
-    }
+    } 
     
     async updateDocument(query,document) {
         await this.#connect().updateOne(query,document).catch((err) => this.#error(err));
@@ -57,6 +57,7 @@ class MongoDB {
     async close() {
         this.#client.close()
     }
+
 }
 
 export default MongoDB;
