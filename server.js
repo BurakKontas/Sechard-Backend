@@ -6,6 +6,7 @@ dotenv.config()
 import MongoDB from "./models/mongo.js";
 import User from "./models/user.js";
 import Contact from "./models/contact.js";
+import ValidateModel from "./helpers/validateModels.js";
 
 const mongo = new MongoDB("sechard","users",process.env.MONGO_CONNECTION_STRING);
 
@@ -21,15 +22,9 @@ server.get('/', (req, res) => {
 
 server.get('/test', async (req, res) => {
     const user = new User({
-        _id:"12345",
-        dictionary: {}
     })
-    try {
-        await user.validate();
-    } catch(err) {
-        console.log("error");
-    }
-    res.send("Done!");
+    const output = await ValidateModel(user);
+    res.send(output)
 })
 
 // server.get
