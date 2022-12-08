@@ -1,5 +1,6 @@
 export default async function ValidateModel(obj) {
     try {
+      //object validate eğer throw atarsa catch'e iniyoruz
         await obj.validate();
         return { error:false };
     } catch(err) {
@@ -7,6 +8,7 @@ export default async function ValidateModel(obj) {
             error:true,
             errors:[],
         }
+        //alttaki çıktıya göre hareket ederek message yada reasonu alıyoruz
         Object.keys(err.errors).forEach((val) => {
             output.errors.push({
               field:err.errors[val].properties.path,

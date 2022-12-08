@@ -1,5 +1,4 @@
-export default function ValidateEmail(mail) 
-{
+export default function ValidateEmail(mail) {
  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
   {
     return (true)
