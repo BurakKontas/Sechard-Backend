@@ -15,12 +15,25 @@ import MongoDB from './../models/mongo.js';
 const userRouter = Router();
 const server = userRouter; //server yazmak alışkanlık oldu
 
+server.post("/user/getcontact", async (req,res) => {
+    const connectionContacts = new MongoDB("sechard","contacts",process.env.MONGO_CONNECTION_STRING);
+    const body = req.body;
+    var query = await connectionContacts.find({user:body.user});
+    res.send(query);
+    connectionContacts.close();
+}); 
 
 server.post('/user/addcontact', async (req,res) => {
     const connection = new MongoDB("sechard","users",process.env.MONGO_CONNECTION_STRING);
     const connectionContacts = new MongoDB("sechard","contacts",process.env.MONGO_CONNECTION_STRING);
     const body = req.body;
     var query = await connection.find({_id:body.user});
+    var contactsQuery = await connectionContacts.find({user:body.user});
+    var ifHasName = contactsQuery.filter((contact) => contact.name == body.name);
+    if(ifHasName.length > 1) {
+        res.status(400).send({error:true,reason:`[${body.name}] zaten ekli.`});
+        return;
+    }
     //çok mümkün bir error değil ama koymakta fayda var.
     if(query.length == 0) {
         res.status(400).send({error:true,reason:`[${body._id}] idsinde bir kullanıcı bulunamadı.`});
@@ -60,7 +73,7 @@ server.post('/user/addcontact', async (req,res) => {
 
 server.get("/test", async (req,res) => {
 
-        res.send("Done!");
+    res.send("Done!");
 })
 
 export default userRouter;
