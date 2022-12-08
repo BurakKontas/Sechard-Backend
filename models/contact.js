@@ -9,7 +9,6 @@ const contactSchema = new Schema({
     user : { type: String, required:true },
     photo: { type: String, required:false }, //photo name (databaseden çekilecek)
     name: { type: String, required: [true,"Bir isim girmelisiniz"] },
-    lastName: { type: String, required: false},
     company: { type: String, required: false}, 
     phones: { type: Array, required: true, validate: {
         validator: (value) => {
