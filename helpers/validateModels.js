@@ -9,8 +9,8 @@ export default async function ValidateModel(obj) {
         }
         Object.keys(err.errors).forEach((val) => {
             output.errors.push({
-                reason:err.errors[val].properties.reason,
-                field:err.errors[val].properties.path,
+              field:err.errors[val].properties.path,
+              reason:(err.errors[val].properties.reason) ? err.errors[val].properties.reason : err.errors[val].message,
             })
         })
         return output;

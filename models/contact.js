@@ -5,15 +5,10 @@ import ValidatePhone from './../helpers/phoneValidator.js';
 const Schema = mongoose.Schema;
 
 const contactSchema = new Schema({
-    _id: { type: String, required:true },
+    _id: { type: String, required:false },
     user : { type: String, required:true },
     photo: { type: String, required:false }, //photo name (databaseden çekilecek)
-    name: { type: String, required: true, validate: {
-        validator: (value) => {
-          if(value == "") throw "Bir isim girmelisiniz."
-        },
-      }, 
-    },
+    name: { type: String, required: [true,"Bir isim girmelisiniz"] },
     lastName: { type: String, required: false},
     company: { type: String, required: false}, 
     phones: { type: Array, required: true, validate: {
