@@ -1,25 +1,33 @@
 import express, { json } from "express";
-import dotenv from 'dotenv';
 import userRouter from "./routes/user.js";
+import dotenv from 'dotenv';
 dotenv.config()
-
-// import MongoDB from "./models/mongo.js";
-// import User from "./models/user.js";
-// import Contact from "./models/contact.js";
-
-// const mongo = new MongoDB("sechard","users",process.env.MONGO_CONNECTION_STRING);
 
 const PORT = process.env.PORT;
 
 const server = express();
 server.use(json());
 
+//Routes
 server.use(userRouter);
 
-
+//endpoints
+//Hello world
 server.get('/', (req, res) => {
     res.send("Hello World!");
 });
+
+//OK cevabı gelirse sunucu aktif
+server.get('/status', (req, res) => {
+    res.status(200).send({"status":"OK"});
+});
+
+server.listen(PORT, () => {
+    console.log(`Our app is running on port ${ PORT }`);
+});
+  
+
+export default server;
 
 // server.get
 // server.post
@@ -33,10 +41,3 @@ server.get('/', (req, res) => {
 // server.unlock
 // server.propfind
 // server.purge
-
-server.listen(PORT, () => {
-    console.log(`Our app is running on port ${ PORT }`);
-});
-  
-
-export default server;

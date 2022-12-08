@@ -1,11 +1,16 @@
 import mongoose from 'mongoose';
+import ValidateEmail from '../helpers/emailValidator.js';
+import ValidatePhone from './../helpers/phoneValidator.js';
+
 const Schema = mongoose.Schema;
 
 const contactSchema = new Schema({
-    photo: {type: String, required:false}, //photo name (databaseden çekilecek)
+    _id: { type: String, required:true },
+    user : { type: String, required:true },
+    photo: { type: String, required:false }, //photo name (databaseden çekilecek)
     name: { type: String, required: true, validate: {
         validator: (value) => {
-          if(value.length == 0) throw "Bir isim girmelisiniz."
+          if(value == "") throw "Bir isim girmelisiniz."
         },
       }, 
     },
@@ -14,24 +19,38 @@ const contactSchema = new Schema({
     phones: { type: Array, required: true, validate: {
         validator: (value) => {
           if(value.length == 0) throw "Bir telefon numarası girmelisiniz."
+          if(value.length == 1) {
+            if(!ValidatePhone(value[0])) throw `[${value[0]}] telefon numarası geçerli bir Türkiye telefon numarası değil.`;
+          } else {
+            var nonValidatePhones = [];
+            value.forEach((phone) => {
+                if(!ValidatePhone(phone)) nonValidatePhones.push(phone);
+            });
+            if(nonValidatePhones.length != 0) throw `[${nonValidatePhones.toString()}] telefon numaraları geçerli bir Türkiye numarası değil.`
+          }
         },
       }, 
     }, //List<String>
-    emails: { type: Array, required: false}, //List<String>
-    ringtone: { type: String, required: false},
-    texttone: { type: String, required: false},
-    urls: { type: Array, required: false}, //List<String>
+    emails: { type: Array, required: false, validate: {
+        validator: (value) => {
+            if(value.length == 1) {
+                if(!ValidateEmail(value[0])) throw `[${value[0]}] adresi geçerli bir mail adresi değil.`;
+              } else {
+                var nonValidateMails = [];
+                value.forEach((email) => {
+                    if(!ValidateEmail(email)) nonValidateMails.push(email);
+                });
+                if(nonValidateMails.length != 0) throw `[${nonValidateMails.toString()}] adresleri geçerli bir mail adresi değil.`
+              }
+        }  
+      },
+    }, //List<String>
     addresses: { type: Array, required: true, validate: {
         validator: (value) => {
           if(value.length == 0) throw "Bir adres girmelisiniz."
         },
       }, 
     }, //List<String>
-    birthday: { type: String, required: false},
-    anniversary: { type: Object, required: false}, //{"firstDate":"08/12/2022", "anniversary":"01/01/2022"}
-    relatedName: { type: Object, required: false}, //{"father":"Bob", "mother":"Aisha"}
-    socialProfile: { type:Object, required: false}, //{"facebook":"www...","twitter":"www..."}
-    instantMessage: { type:Object, required: false}, //{"skype":"","msn":""}
     notes: { type: String, required: false},
 }, {
   timestamps: true,
