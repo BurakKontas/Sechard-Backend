@@ -1,7 +1,7 @@
 import ValidateModel from "../../helpers/validateModels";
 
-import User from "../../models/user";
-import Contact from "../../models/contact";
+import User from "../../entities/user";
+import Contact from "../../entities/contact";
 
 describe('mongoose models validation helper test', () => {
 

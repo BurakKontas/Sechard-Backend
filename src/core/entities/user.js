@@ -6,7 +6,7 @@ const userSchema = new Schema({
     //dictionary contact._id lerin tutulduğu bir array olacak 
     dictionary: { type: Array, required: true, validate: {
         validator: (value) => {
-          if(value.length == 0) throw "Bir ID listesi girmelisiniz."
+          if(value.length == 0) throw "Bir isim listesi girmelisiniz."
         },
       }, 
     }, //List<Contact>

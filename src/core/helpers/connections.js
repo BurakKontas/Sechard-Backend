@@ -1,4 +1,4 @@
-import MongoDB from "../models/mongo";
+import MongoDB from '../entities/mongo.js';
 //.env
 import dotenv from 'dotenv';
 dotenv.config()

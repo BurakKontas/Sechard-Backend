@@ -1,7 +1,7 @@
 import express, { json } from "express";
 
 //routes
-import userRouter from "./routes/user.js";
+import userRouter from "./core/routes/user.js";
 
 import dotenv from 'dotenv';
 dotenv.config()

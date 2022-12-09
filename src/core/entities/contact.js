@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import ValidateEmail from '../helpers/emailValidator.js';
-import ValidatePhone from './../helpers/phoneValidator.js';
+import ValidatePhone from '../helpers/phoneValidator.js';
 
 const Schema = mongoose.Schema;
 
@@ -47,6 +47,7 @@ const contactSchema = new Schema({
     }, //List<String>
     notes: { type: String, required: false},
 }, {
+  validateBeforeSave:true,
   timestamps: true,
 });
 
