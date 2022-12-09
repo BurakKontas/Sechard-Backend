@@ -5,6 +5,7 @@ dotenv.config()
 import UserDTO from './../dtos/userDTO';
 import User from './../entities/user';
 import MongoDB from './../entities/mongo';
+import ContactsRepository from './ContactsRepository';
 
 class UsersRepository {
     
@@ -12,14 +13,14 @@ class UsersRepository {
         return new MongoDB("sechard","users",process.env.MONGO_CONNECTION_STRING);
     }
 
-    static async get(query) {
+    //getall yok çünkü neden tüm kullanıcıları istiyim ki ?
+    static async get(query,projection) {
         //dümdüz alıyoruz
         const connection = await this.#usersConnection();
-        var founded = await connection.find(query);
+        var founded = await connection.find(query,projection);
         if(!founded) return {error:true,reason:"Böyle bir user bulunamadı"};
-        var userdto = new UserDTO(founded[0]);
         connection.close();
-        return userdto;
+        return founded;
     }
 
     static async create(body) {
@@ -42,6 +43,12 @@ class UsersRepository {
  
     static async delete(userId,request) {
         const connection = await this.#usersConnection();
+        var user = UsersRepository.get({_id:userId});
+        user.dictionary.forEach((name) => {
+            //contactlarında silinmesi lazım o usere bağlı olan
+            //gerçi bu fonksiyon kullanılmaz muhtemelen
+            ContactsRepository.delete({user:userId,name:name})
+        })
         await connection.deleteDocument({_id:userId});
     }
  

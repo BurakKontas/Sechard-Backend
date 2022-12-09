@@ -25,9 +25,4 @@ server.post('/user/addcontact', async (req,res) => {
     res.status(201).send(result);
 });
 
-server.get("/test", async (req,res) => {
-
-    res.send("Done!");
-})
-
 export default userRouter;
