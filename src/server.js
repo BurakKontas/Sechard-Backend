@@ -2,6 +2,8 @@ import express, { json } from "express";
 
 //routes
 import userRouter from "./core/routes/user.js";
+import contactRouter from "./core/routes/contact.js";
+
 
 //.env
 import dotenv from 'dotenv';
@@ -14,6 +16,7 @@ server.use(json());
 
 //Routes
 server.use(userRouter);
+server.use(contactRouter);
 
 //endpoints
 //Hello world

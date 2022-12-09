@@ -5,24 +5,69 @@ dotenv.config()
 import { Router } from "express";
 
 //functions
-import getContacts from '../usecases/getContacts.js'
-import addContacts from '../usecases//addContacts.js';
+import getUser from './../usecases/users/getUser.js';
+import deleteUser from '../usecases/users/deleteUser.js';
+import updateUser from './../usecases/users/updateUser.js';
+import addUser from './../usecases/users/addUser.js';
 
 //değişkenler
 const userRouter = Router();
 const server = userRouter; //server yazmak alışkanlık oldu
 
-server.post("/user/getcontact", async (req,res) => {
-    const contacts = await getContacts(req.body);
-    res.status(200).send(contacts);
-}); 
-
-server.post('/user/addcontact', async (req,res) => {
-    const result = await addContacts(req);
-    if(result.error) {
-        res.status(400).send(result)
+server.get("/user/getUser/:userid", async (req,res) => {
+    try {
+        const user = await getUser(req);
+        res.status(200).send(user);
+    } catch(err) {
+        res.status(400).send(err);
     }
-    res.status(201).send(result);
 });
+
+server.get("/user/getUser/", async (req,res) => {
+    res.status(400).send({error:true,reason:"ID Girilmedi"});
+});
+
+//ben olsam böyle birşey yapmazdım JWT olmadan en azından json lu halde tutmalıyım bence
+server.delete("/user/deleteUser", async (req,res) => {
+    try {
+        const user = await deleteUser(req);
+        res.status(200).send(user);
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
+
+server.post("/user/addUser", async (req,res) => {
+    try {
+        const user = await addUser(req);
+        res.status(201).send(user);
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
+
+server.put("/user/updateUser", async (req,res) => {
+    try {
+        const user = await updateUser(req);
+        res.status(200).send(user);
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
+
+
+
+// server.get
+// server.post
+// server.put
+// server.delete
+// server.options
+// server.head
+// server.copy
+// server.patch
+// server.lock
+// server.unlock
+// server.propfind
+// server.purge
 
 export default userRouter;
