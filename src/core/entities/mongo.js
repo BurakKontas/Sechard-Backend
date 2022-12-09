@@ -45,12 +45,8 @@ class MongoDB {
         await this.#connect().updateOne(query,document).catch((err) => this.#error(err));
     }
 
-    async find(query,projection={}) {
-        return await this.#connect().find(query).project(projection).toArray().catch((err) => this.#error(err));
-    }
-
-    async findOne(query,projection={}) {
-        return await this.#connect().findOne(query).project(projection).toArray().catch((err) => this.#error(err));
+    async find(query) {
+        return await this.#connect().find(query).toArray().catch((err) => this.#error(err));
     }
 
     async dropCollection(collection) {

@@ -1,75 +1,83 @@
-import connections from '../helpers/connections';
-import connectionsClose from '../helpers/connectionsClose';
+//.env
+import dotenv from 'dotenv';
+dotenv.config()
+
 import Contact from '../entities/contact';
 import ValidateModel from '../helpers/validateModels';
 import randomId from '../helpers/randomId';
 import ContactDTO from './../dtos/contactDTO';
+import UsersRepository from './UsersRepository';
+import MongoDB from './../entities/mongo';
 
 class ContactsRepository {
-    static async get(request,Id) {
+    
+    static async #contactsConnection() {
+        return new MongoDB("sechard","contacts",process.env.MONGO_CONNECTION_STRING);
+    }
+
+    static async get(query) {
         //dümdüz alıyoruz
-        const connect = connections();
-        var query = await connect.contacts.findOne({user:request.body.user,_id:Id});
-        if(!query) return {error:true,reason:"Böyle bir contact bulunamadı"};
-        var contactdto = new ContactDTO(query);
-        connectionsClose(connect);
+        const connection = await this.#contactsConnection();
+        var founded = await connection.find(query);
+        if(founded.length == 0) return {error:true,reason:"Böyle bir contact bulunamadı"};
+        var contactdto = new ContactDTO(founded[0]);
+        connection.close();
         return contactdto;
     }
  
-    static async getAll(request) {
+    static async getAll(query) {
         //dümdüz alıyoruz
-        const connect = connections();
-        var query = await connect.contacts.find({user:request.body.user});
+        const connection = await this.#contactsConnection();
+        var founded = await connection.find(query);
         var dtos = [];
-        query.map((contact) => {
+        founded.map((contact) => {
             dtos.push(new ContactDTO(contact));
         })
-        connectionsClose(connect);
+        connection.close();
         return dtos;
     }
  
-    static async create(request) {
+    static async create(body) {
         //bağlantılar
-        var body = request.body;
-        const connect = await connections();
+        const connection = await this.#contactsConnection();
 
         //gerekli dökümanları buluyoruz
-        var query = await connect.users.find({_id:body.user});
-        var user = query[0];
+        var query = await UsersRepository.get({_id:body.user});
+        var user = query;
 
         //aynı isimde biri daha var mı ?
-        var ifHasName = user.dictionary.filter((contact) => contact.name == body.name);
-        if(ifHasName.length > 1) {
-            connectionsClose(connect);
+        var ifHasName = user.dictionary.filter((contact) => contact == body.name);
+        if(ifHasName.length > 0) {
+            connection.close();
             return { error:true,reason:`[${body.name}] zaten ekli.` };
         }
-
+        
         //çok mümkün bir error değil ama koymakta fayda var.
         if(query.length == 0) {
-            connectionsClose(connect);
+            connection.close();
             return { error:true,reason:`[${body._id}] idsinde bir kullanıcı bulunamadı.` };
         }
-
+        
         //validate işlemlerini yapıyoruz
         const contact = new Contact(body);
         const validation = await ValidateModel(contact);
         if(validation.error == true) {
-            connectionsClose(connect);
+            connection.close();
             return validation;
         }
         //burdan sonrasında valid contactımız ve userimiz var
-
+        
         //crypto ile oluşturduğumuz id yi veriyoruz
         contact._id = randomId();
-        await connect.contacts.insertDocument(contact);
-
+        await connection.insertDocument(contact);
+        
         //userin dictionarysine ekliyoruz
         if(!user.dictionary) user.dictionary = [];
-        user.dictionary.push(contact._id);
-        await connect.users.updateDocument({_id:body.user},{$set:user});
-
-        connectionsClose(connect);
-
+        //isimler unique olduğundan böyle birşey yapabilirim
+        user.dictionary.push(contact.name);
+        await UsersRepository.update(user,body.user);
+        connection.close();
+        
         return {
             error:false,
             contact:contact,
@@ -77,12 +85,14 @@ class ContactsRepository {
         };
     }
  
-    static async update(request,Id) {
-        return new Error('not implemented');
+    static async update(newContact,contactId,request) {
+        const connection = await this.#contactsConnection();
+        await connection.updateDocument({_id:contactId},{$set:newContact});
     }
  
-    static async delete(request,userId) {
-        return new Error('not implemented');
+    static async delete(contactId,request) {
+        const connection = await this.#contactsConnection();
+        await connection.deleteDocument({_id:contactId});
     }
  
 }

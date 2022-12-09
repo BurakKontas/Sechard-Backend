@@ -3,13 +3,8 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     _id: { type: String, required: [true, "Bir ID girmelisiniz."] },
-    //dictionary contact._id lerin tutulduğu bir array olacak 
-    dictionary: { type: Array, required: true, validate: {
-        validator: (value) => {
-          if(value.length == 0) throw "Bir isim listesi girmelisiniz."
-        },
-      }, 
-    }, //List<Contact>
+    //dictionary contact.name lerin tutulduğu bir array olacak 
+    dictionary: { type: Array, default: [], required: true }, //List<String>
     }, {
   validateBeforeSave:true,
   timestamps: true,

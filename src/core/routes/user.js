@@ -3,11 +3,12 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 import { Router } from "express";
-import addContacts from '../usecases//addContacts.js';
 
 //functions
 import getContacts from '../usecases/getContacts.js'
+import addContacts from '../usecases//addContacts.js';
 
+//değişkenler
 const userRouter = Router();
 const server = userRouter; //server yazmak alışkanlık oldu
 

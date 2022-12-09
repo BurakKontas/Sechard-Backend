@@ -3,6 +3,7 @@ import express, { json } from "express";
 //routes
 import userRouter from "./core/routes/user.js";
 
+//.env
 import dotenv from 'dotenv';
 dotenv.config()
 
