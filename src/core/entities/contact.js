@@ -31,7 +31,7 @@ const contactSchema = new Schema({
               } else {
                 var nonValidateMails = [];
                 value.forEach((email) => {
-                    if(!ValidateEmail(email)) nonValidateMails.push(email);
+                    if(!ValidateEmail(email) && email != "") nonValidateMails.push(email);
                 });
                 if(nonValidateMails.length != 0) throw `[${nonValidateMails.toString()}] adresleri geçerli bir mail adresi değil.`
               }
