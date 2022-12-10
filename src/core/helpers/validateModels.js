@@ -6,14 +6,13 @@ export default async function ValidateModel(obj) {
     } catch(err) {
         var output = {
             error:true,
-            errors:[],
+            reason:[],
         }
         //alttaki çıktıya göre hareket ederek message yada reasonu alıyoruz
         Object.keys(err.errors).forEach((val) => {
-            output.errors.push({
-              field:err.errors[val].properties.path,
-              reason:(err.errors[val].properties.reason) ? err.errors[val].properties.reason : err.errors[val].message,
-            })
+            output.reason.push(
+              (err.errors[val].properties.reason) ? err.errors[val].properties.reason : err.errors[val].message,
+            )
         })
         return output;
     }
