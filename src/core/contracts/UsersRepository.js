@@ -18,7 +18,7 @@ class UsersRepository {
         //dümdüz alıyoruz
         const connection = await this.#usersConnection();
         var founded = await connection.find(query,projection);
-        if(founded.length == 0) throw {error:true,reason:"Böyle bir user bulunamadı"};
+        if(founded.length == 0) throw {error:true,reason:["Böyle bir user bulunamadı"]};
         connection.close();
         return founded;
     }
@@ -27,7 +27,7 @@ class UsersRepository {
         const connection = await this.#usersConnection();
         if(!body.id) throw { error:true, reason:"ID girilmedi" }
         var ids = await getUserIds();
-        if(ids.includes(body.id)) throw { error:true, reason:"Bu ID'de bir kullanıcı zaten var" }
+        if(ids.includes(body.id)) throw { error:true, reason:["Bu ID'de bir kullanıcı zaten var"] }
         var user = new User({
             _id:body.id,
             dictionary:[],
@@ -42,7 +42,7 @@ class UsersRepository {
     static async update(dictionary,userId,request) {
         const connection = await this.#usersConnection();
         var ids = await getUserIds();
-        if(!ids.includes(userId)) throw { error:true, reason:"Bu ID'de bir kullanıcı yok" }
+        if(!ids.includes(userId)) throw { error:true, reason:["Bu ID'de bir kullanıcı yok"] }
         var user = new User({
             _id:userId,
             dictionary:dictionary
@@ -54,7 +54,7 @@ class UsersRepository {
     static async delete(userId,request) {
         const connection = await this.#usersConnection();
         var ids = await getUserIds();
-        if(!ids.includes(userId)) throw { error:true,"reason":"Böyle Bir ID bulunamadı." }
+        if(!ids.includes(userId)) throw { error:true,reason:["Böyle Bir ID bulunamadı."] }
         var user = UsersRepository.get({_id:userId});
         if(user.dictionary && user.dictionary.length != 0) {
             user.dictionary.forEach((name) => {

@@ -18,10 +18,10 @@ class ContactsRepository {
     static async get(query,projection) {
         //dümdüz alıyoruz
         var ids = await getUserIds();
-        if(!ids.includes(query.user)) throw { error:true,reason:"Bu ID de bir kullanıcı yok." };
+        if(!ids.includes(query.user)) throw { error:true,reason:["Bu ID de bir kullanıcı yok." ]};
         const connection = await this.#contactsConnection();
         var founded = await connection.find(query,projection);
-        if(founded.length == 0) throw { error:true,reason:"Böyle bir contact bulunamadı" };
+        if(founded.length == 0) throw { error:true,reason:["Böyle bir contact bulunamadı"] };
         connection.close();
         return founded;
     }
@@ -29,7 +29,7 @@ class ContactsRepository {
     static async getAll(query,projection) {
         //dümdüz alıyoruz
         var ids = await getUserIds();
-        if(!ids.includes(query.user)) throw { error:true,reason:"Bu ID de bir kullanıcı yok." };
+        if(!ids.includes(query.user)) throw { error:true,reason:["Bu ID de bir kullanıcı yok."] };
         const connection = await this.#contactsConnection();
         var founded = await connection.find(query,projection);
         connection.close();
@@ -47,13 +47,13 @@ class ContactsRepository {
         var ifHasName = user.dictionary.filter((contact) => contact == body.name);
         if(ifHasName.length > 0) {
             connection.close();
-            throw { error:true,reason:`[${body.name}] zaten ekli.` };
+            throw { error:true,reason:[`[${body.name}] zaten ekli.`] };
         }
         
         //çok mümkün bir error değil ama koymakta fayda var.
         if(query.length == 0) {
             connection.close();
-            throw { error:true,reason:`[${body._id}] idsinde bir kullanıcı bulunamadı.` };
+            throw { error:true,reason:[`[${body._id}] idsinde bir kullanıcı bulunamadı.`] };
         }
         //validate işlemlerini yapıyoruz
         const contact = new Contact(body);
