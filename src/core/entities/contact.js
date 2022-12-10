@@ -7,7 +7,6 @@ const Schema = mongoose.Schema;
 const contactSchema = new Schema({
     _id: { type: String, required:false },
     user : { type: String, required:true },
-    photo: { type: String, required:false }, //photo name (databaseden çekilecek)
     name: { type: String, required: [true,"Bir isim girmelisiniz"] },
     company: { type: String, required: false}, 
     phones: { type: Array, required: true, validate: {
@@ -45,7 +44,6 @@ const contactSchema = new Schema({
         },
       }, 
     }, //List<String>
-    notes: { type: String, required: false},
 }, {
   validateBeforeSave:true,
   timestamps: true,
