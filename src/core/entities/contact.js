@@ -11,7 +11,7 @@ const contactSchema = new Schema({
     company: { type: String, required: false}, 
     phones: { type: Array, required: true, validate: {
         validator: (value) => {
-          if(value.length == 0) throw "Bir telefon numarası girmelisiniz."
+          if(value.length == 0 || (value.length == 1 && value[0] == "")) throw "Bir telefon numarası girmelisiniz."
           if(value.length == 1) {
             if(!ValidatePhone(value[0])) throw `[${value[0]}] telefon numarası geçerli bir Türkiye telefon numarası değil.`;
           } else {
@@ -26,7 +26,7 @@ const contactSchema = new Schema({
     }, //List<String>
     emails: { type: Array, required: false, validate: {
         validator: (value) => {
-            if(value.length == 1) {
+            if(value.length == 1 && value[0] != "") {
                 if(!ValidateEmail(value[0])) throw `[${value[0]}] adresi geçerli bir mail adresi değil.`;
               } else {
                 var nonValidateMails = [];
@@ -40,7 +40,7 @@ const contactSchema = new Schema({
     }, //List<String>
     addresses: { type: Array, required: true, validate: {
         validator: (value) => {
-          if(value.length == 0) throw "Bir adres girmelisiniz."
+          if(value.length == 0 || (value.length == 1 && value[0] == "")) throw "Bir adres girmelisiniz."
         },
       }, 
     }, //List<String>
