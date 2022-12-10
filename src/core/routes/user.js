@@ -4,6 +4,11 @@ dotenv.config()
 
 import { Router } from "express";
 
+//cache
+import pkg from 'express-api-cache';
+const { cache } = pkg;
+
+
 //functions
 import getUser from './../usecases/users/getUser.js';
 import deleteUser from '../usecases/users/deleteUser.js';
@@ -14,7 +19,7 @@ import addUser from './../usecases/users/addUser.js';
 const userRouter = Router();
 const server = userRouter; //server yazmak alışkanlık oldu
 
-server.get("/user/getUser/:userid", async (req,res) => {
+server.get("/user/getUser/:userid", cache("30 seconds"), async (req,res) => {
     try {
         const user = await getUser(req);
         res.status(200).send(user);

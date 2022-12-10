@@ -4,6 +4,10 @@ dotenv.config()
 
 import { Router } from "express";
 
+//cache
+import pkg from 'express-api-cache';
+const { cache } = pkg;
+
 //functions
 import getAllContacts from '../usecases/contacts/getAllContacts.js'
 import addContact from '../usecases/contacts/addContact.js';
@@ -17,7 +21,7 @@ const contactRouter = Router();
 const server = contactRouter; //server yazmak alışkanlık oldu
 
 //name + id yi verdiğimizden dolayı post
-server.post("/contact/getAllcontacts", async (req,res) => {
+server.post("/contact/getAllcontacts", cache("30 seconds"), async (req,res) => {
     try {
         const contacts = await getAllContacts(req);
         res.status(200).send(contacts);
@@ -25,6 +29,15 @@ server.post("/contact/getAllcontacts", async (req,res) => {
         res.status(400).send(err)
     }
 }); 
+
+server.post('/contact/getcontact', cache("30 seconds"), async (req,res) => {
+    try {
+        const result = await getContact(req);
+        res.status(200).send(result);
+    } catch(err) {
+        res.status(400).send(err)
+    }
+});
 
 server.post('/contact/addcontact', async (req,res) => {
     try {
@@ -44,15 +57,6 @@ server.delete('/contact/deletecontact', async (req,res) => {
     }
 });
 
-server.post('/contact/getcontact', async (req,res) => {
-    try {
-        const result = await getContact(req);
-        res.status(200).send(result);
-    } catch(err) {
-        res.status(400).send(err)
-    }
-});
-
 server.put('/contact/updatecontact', async (req,res) => {
     try {
         const result = await updateContact(req);
@@ -62,7 +66,7 @@ server.put('/contact/updatecontact', async (req,res) => {
     }
 });
 
-server.post('/contact/searchcontacts', async (req,res) => {
+server.post('/contact/searchcontacts', cache("30 seconds"), async (req,res) => {
     try {
         const result = await searchContact(req);
         res.status(200).send(result);
