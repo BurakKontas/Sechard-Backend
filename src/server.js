@@ -7,7 +7,7 @@ import contactRouter from "./core/routes/contact.js";
 
 //.env
 import dotenv from 'dotenv';
-import randomId from './core/helpers/randomId';
+import randomId from './core/helpers/randomId.js';
 dotenv.config()
 
 const PORT = process.env.PORT;
