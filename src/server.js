@@ -30,7 +30,7 @@ server.get('/status', (req, res) => {
     res.status(200).send({"status":"OK"});
 });
 
-server.get('randomid', (req,res) => {
+server.get('/randomid', (req,res) => {
     var random = randomId();
     res.status(200).send({id:random});
 })
