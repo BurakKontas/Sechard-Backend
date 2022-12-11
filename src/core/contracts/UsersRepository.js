@@ -25,7 +25,7 @@ class UsersRepository {
 
     static async create(body) {
         const connection = await this.#usersConnection();
-        if(!body.id) throw { error:true, reason:"ID girilmedi" }
+        if(!body._id) throw { error:true, reason:"ID girilmedi" }
         var ids = await getUserIds();
         if(ids.includes(body._id)) throw { error:true, reason:["Bu ID'de bir kullanıcı zaten var"] }
         var user = new User({
