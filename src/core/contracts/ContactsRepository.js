@@ -87,8 +87,7 @@ class ContactsRepository {
         const connection = await this.#contactsConnection();
         var contact = await ContactsRepository.get({name:oldName,user:newContact.user});
         contact = contact[0];
-        newContact = new Contact(newContact);
-        var validation = ValidateModel(newContact);
+        var validation = await ValidateModel(new Contact(newContact));
         if(validation.error == true) {
             throw validation
         }
