@@ -21,7 +21,7 @@ const contactRouter = Router();
 const server = contactRouter; //server yazmak alışkanlık oldu
 
 //name + id yi verdiğimizden dolayı post
-server.post("/contact/getAllcontacts", cache("30 seconds"), async (req,res) => {
+server.post("/contact/getAllcontacts", cache("5 seconds"), async (req,res) => {
     try {
         const contacts = await getAllContacts(req);
         res.status(200).send(contacts);
@@ -30,7 +30,7 @@ server.post("/contact/getAllcontacts", cache("30 seconds"), async (req,res) => {
     }
 }); 
 
-server.post('/contact/getcontact', cache("30 seconds"), async (req,res) => {
+server.post('/contact/getcontact', cache("5 seconds"), async (req,res) => {
     try {
         const result = await getContact(req);
         res.status(200).send(result);
@@ -66,7 +66,7 @@ server.put('/contact/updatecontact', async (req,res) => {
     }
 });
 
-server.post('/contact/searchcontacts', cache("30 seconds"), async (req,res) => {
+server.post('/contact/searchcontacts', cache("5 seconds"), async (req,res) => {
     try {
         const result = await searchContact(req);
         res.status(200).send(result);
