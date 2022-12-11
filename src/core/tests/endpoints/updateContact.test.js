@@ -39,7 +39,7 @@ describe("updateContact test", () => {
         { name: json[0].newContact.name, user: json[0].newContact.user },
         { _id: 0 }
       );
-      expect(json[0].newContact).toStrictEqual(updatedContact);
+      expect(json[0].newContact).toEqual(updatedContact[0]);
     }, 3000);
   }, 10000);
 });

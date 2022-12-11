@@ -3,10 +3,11 @@ import UsersRepository from './../../contracts/UsersRepository';
 import User from './../../entities/user';
 
 describe("updateUser test", () => {
-    var id = randomId();
+    var id = "random-ID";
 
   beforeAll(async () => {
-    await UsersRepository.create(new User({_id:id}));
+    var result = await UsersRepository.create(new User({_id:id}));
+    id = result.user._id;
   })
   afterAll(async () => {
     //testi tekrar çalıştırırken hata verir

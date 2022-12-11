@@ -13,7 +13,7 @@ describe('deleteContact test', () => {
             });
              await ContactsRepository.create(contact)
         } catch(err) {}
-    });
+    },10000);
     test('should delete contact', async () => {
         //databaseye güncellenmesi için zaman veriyoruz
         setTimeout(async () => {
@@ -21,5 +21,5 @@ describe('deleteContact test', () => {
             var deletedContact = await ContactsRepository.get({user:"6392150338d1d848819fc5e8",name:"Micheal"});
             expect(deletedContact).toStrictEqual([]);
         },3000)
-    }, 30000)
+    }, 10000)
 })
