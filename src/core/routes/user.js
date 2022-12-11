@@ -42,7 +42,7 @@ server.delete("/user/deleteUser", async (req,res) => {
     }
 });
 
-server.post("/user/addUser", async (req,res) => {
+server.get("/user/addUser", async (req,res) => {
     try {
         const user = await addUser(req);
         res.status(201).send(user);
