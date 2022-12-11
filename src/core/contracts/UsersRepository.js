@@ -27,9 +27,9 @@ class UsersRepository {
         const connection = await this.#usersConnection();
         if(!body.id) throw { error:true, reason:"ID girilmedi" }
         var ids = await getUserIds();
-        if(ids.includes(body.id)) throw { error:true, reason:["Bu ID'de bir kullanıcı zaten var"] }
+        if(ids.includes(body._id)) throw { error:true, reason:["Bu ID'de bir kullanıcı zaten var"] }
         var user = new User({
-            _id:body.id,
+            _id:body._id,
             dictionary:[],
         });
         connection.insertDocument(user);
