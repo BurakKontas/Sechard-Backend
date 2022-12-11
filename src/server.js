@@ -7,6 +7,7 @@ import contactRouter from "./core/routes/contact.js";
 
 //.env
 import dotenv from 'dotenv';
+import randomId from './core/helpers/randomId';
 dotenv.config()
 
 const PORT = process.env.PORT;
@@ -28,6 +29,10 @@ server.get('/', (req, res) => {
 server.get('/status', (req, res) => {
     res.status(200).send({"status":"OK"});
 });
+
+server.get('randomid', (req,res) => {
+    res.status(200).send(randomId());
+})
 
 server.listen(PORT, () => {
     console.log(`Our app is running on port ${ PORT }`);
