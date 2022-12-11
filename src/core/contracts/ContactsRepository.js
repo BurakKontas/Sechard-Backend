@@ -87,6 +87,11 @@ class ContactsRepository {
         const connection = await this.#contactsConnection();
         var contact = await ContactsRepository.get({name:oldName,user:newContact.user});
         contact = contact[0];
+        newContact = new Contact(newContact);
+        var validation = ValidateModel(newContact);
+        if(validation.error == true) {
+            throw validation;
+        }
         //eğer name değiştiyse userdeki dictionarydeki nameyi de değiştirmemiz gerekiyor
         //contactın useri değiştirilemez !
         var user = await UsersRepository.get({_id:contact.user});
