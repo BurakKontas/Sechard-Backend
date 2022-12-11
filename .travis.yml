@@ -1,6 +1,3 @@
 language: node_js
 node_js:
   - 16
-env:
-  - PORT = 3570
-  - MONGO_CONNECTION_STRING = "mongodb+srv://admin:benarda1907@cluster0.dmjbq76.mongodb.net/?retryWrites=true&w=majority"
