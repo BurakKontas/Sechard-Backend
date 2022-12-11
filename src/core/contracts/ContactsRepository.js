@@ -90,7 +90,7 @@ class ContactsRepository {
         newContact = new Contact(newContact);
         var validation = ValidateModel(newContact);
         if(validation.error == true) {
-            throw validation;
+            throw validation
         }
         //eğer name değiştiyse userdeki dictionarydeki nameyi de değiştirmemiz gerekiyor
         //contactın useri değiştirilemez !
