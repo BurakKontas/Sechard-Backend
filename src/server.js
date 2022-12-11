@@ -31,7 +31,8 @@ server.get('/status', (req, res) => {
 });
 
 server.get('randomid', (req,res) => {
-    res.status(200).send(randomId());
+    var random = randomId();
+    res.status(200).send({id:random});
 })
 
 server.listen(PORT, () => {
