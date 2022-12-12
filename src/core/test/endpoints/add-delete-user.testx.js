@@ -1,6 +1,6 @@
 import { agent } from "supertest";
 
-var server = agent("https://sechard-contacts.herokuapp.com/");
+var server = agent("http://localhost:3570");
 describe("/user/addUser unit test", () => {
   var user;
 
