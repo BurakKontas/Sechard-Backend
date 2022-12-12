@@ -13,7 +13,7 @@ describe('deleteUser test', () => {
             })
              await UsersRepository.create(user)
         } catch(err) {}
-    });
+    },10000);
     test('should delete user', async () => {
         //databaseye güncellenmesi için zaman veriyoruz
         setTimeout(async () => {

@@ -8,11 +8,11 @@ describe("updateUser test", () => {
   beforeAll(async () => {
     var result = await UsersRepository.create(new User({_id:id}));
     id = result.user._id;
-  })
+  },10000)
   afterAll(async () => {
     //testi tekrar çalıştırırken hata verir
     await UsersRepository.delete(id);
-  });
+  },10000);
   
   test("should update user dictionary", async () => {
     setTimeout(async () => {

@@ -13,12 +13,12 @@ describe("updateContact test", () => {
         });
         await ContactsRepository.create(contact.toJSON());
     } catch(err) {}
-  })
+  },10000)
 
   afterAll(async () => {
     //testi tekrar çalıştırırken hata verir
     await ContactsRepository.delete("Michealera","6392150338d1d848819fc5e8");
-  });
+  },10000);
 
   var json = [
     {

@@ -14,13 +14,13 @@ describe("getContact test", () => {
       })
       await ContactsRepository.create(contact);
     } catch(err) {} //varsa zaten yaratmasın tekrar
-  });
+  },10000);
 
   afterAll(async () => {
     setTimeout(async () => {
       await ContactsRepository.delete("Michealea","6392150338d1d848819fc5e8")
     },3000)
-  })
+  },10000)
 
   test("should get one contact from users dictionary", async () => {
     var json = {
