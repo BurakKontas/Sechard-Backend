@@ -84,6 +84,13 @@ class ContactsRepository {
     }
  
     static async update(newContact,oldName,request) {
+        var query = await UsersRepository.get({_id:newContact.user});
+        var user = query[0];
+        //aynı isimde biri daha var mı ?
+        var ifHasName = user.dictionary.filter((contact) => contact == newContact.name);
+        if(ifHasName.length > 0) {
+            throw { error:true,reason:[`[${newContact.name}] zaten ekli.`] };
+        }
         const connection = await this.#contactsConnection();
         var contact = await ContactsRepository.get({name:oldName,user:newContact.user});
         contact = contact[0];
