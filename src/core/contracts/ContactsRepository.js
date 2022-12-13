@@ -88,7 +88,7 @@ class ContactsRepository {
         var user = query[0];
         //aynı isimde biri daha var mı ?
         var ifHasName = user.dictionary.filter((contact) => contact == newContact.name);
-        if(ifHasName.length > 0) {
+        if(ifHasName.length > 0 && newContact.name != oldName) {
             throw { error:true,reason:[`[${newContact.name}] zaten ekli.`] };
         }
         const connection = await this.#contactsConnection();
