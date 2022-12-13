@@ -4,7 +4,10 @@ import express, { json } from "express";
 import userRouter from "./core/routes/user.js";
 import contactRouter from "./core/routes/contact.js";
 
+//cors
 
+import pkg2 from 'cors';
+const cors  = pkg2;
 //.env
 import dotenv from 'dotenv';
 import randomId from './core/helpers/randomId.js';
@@ -14,6 +17,11 @@ const PORT = process.env.PORT;
 
 const server = express();
 server.use(json());
+
+server.use(cors({
+    origin:'*',
+    methods:['GET','POST','DELETE','UPDATE','PUT','PATCH']
+}))
 
 //Routes
 server.use(userRouter);

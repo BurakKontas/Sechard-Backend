@@ -8,6 +8,9 @@ import { Router } from "express";
 import pkg from 'express-api-cache';
 const { cache } = pkg;
 
+import pkg2 from 'cors';
+const cors = pkg2;
+
 //functions
 import getAllContacts from '../usecases/contacts/getAllContacts.js'
 import addContact from '../usecases/contacts/addContact.js';
@@ -21,7 +24,7 @@ const contactRouter = Router();
 const server = contactRouter; //server yazmak alışkanlık oldu
 
 //name + id yi verdiğimizden dolayı post
-server.post("/contact/getAllcontacts", cache("5 seconds"), async (req,res) => {
+server.post("/contact/getAllcontacts",cors(), cache("5 seconds"), async (req,res) => {
     try {
         const contacts = await getAllContacts(req);
         res.status(200).send(contacts);
@@ -30,7 +33,7 @@ server.post("/contact/getAllcontacts", cache("5 seconds"), async (req,res) => {
     }
 }); 
 
-server.post('/contact/getcontact', cache("5 seconds"), async (req,res) => {
+server.post('/contact/getcontact',cors(), cache("5 seconds"), async (req,res) => {
     try {
         const result = await getContact(req);
         res.status(200).send(result);
@@ -39,7 +42,7 @@ server.post('/contact/getcontact', cache("5 seconds"), async (req,res) => {
     }
 });
 
-server.post('/contact/addcontact', async (req,res) => {
+server.post('/contact/addcontact',cors(), async (req,res) => {
     try {
         const result = await addContact(req);
         res.status(201).send(result);
@@ -48,7 +51,7 @@ server.post('/contact/addcontact', async (req,res) => {
     }
 });
 
-server.delete('/contact/deletecontact', async (req,res) => {
+server.delete('/contact/deletecontact',cors(), async (req,res) => {
     try {
         const result = await deleteContacts(req);
         res.status(200).send(result);
@@ -57,7 +60,7 @@ server.delete('/contact/deletecontact', async (req,res) => {
     }
 });
 
-server.put('/contact/updatecontact', async (req,res) => {
+server.put('/contact/updatecontact',cors(), async (req,res) => {
     try {
         const result = await updateContact(req);
         res.status(200).send(result);
@@ -66,7 +69,7 @@ server.put('/contact/updatecontact', async (req,res) => {
     }
 });
 
-server.post('/contact/searchcontacts', cache("5 seconds"), async (req,res) => {
+server.post('/contact/searchcontacts',cors(), cache("5 seconds"), async (req,res) => {
     try {
         const result = await searchContact(req);
         res.status(200).send(result);

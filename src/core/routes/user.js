@@ -15,11 +15,13 @@ import deleteUser from '../usecases/users/deleteUser.js';
 import updateUser from './../usecases/users/updateUser.js';
 import addUser from './../usecases/users/addUser.js';
 
+import pkg2 from 'cors';
+const cors = pkg2;
 //değişkenler
 const userRouter = Router();
 const server = userRouter; //server yazmak alışkanlık oldu
 
-server.get("/user/getUser/:userid", cache("5 seconds"), async (req,res) => {
+server.get("/user/getUser/:userid",cors(), cache("5 seconds"), async (req,res) => {
     try {
         const user = await getUser(req);
         res.status(200).send(user);
@@ -28,12 +30,12 @@ server.get("/user/getUser/:userid", cache("5 seconds"), async (req,res) => {
     }
 });
 
-server.get("/user/getUser/", async (req,res) => {
+server.get("/user/getUser/",cors(), async (req,res) => {
     res.status(400).send({error:true,reason:"ID Girilmedi"});
 });
 
 //ben olsam böyle birşey yapmazdım JWT olmadan en azından json lu halde tutmalıyım bence
-server.delete("/user/deleteUser", async (req,res) => {
+server.delete("/user/deleteUser",cors(), async (req,res) => {
     try {
         const user = await deleteUser(req);
         res.status(200).send(user);
@@ -51,7 +53,7 @@ server.get("/user/addUser", async (req,res) => {
     }
 });
 
-server.put("/user/updateUser", async (req,res) => {
+server.put("/user/updateUser",cors(), async (req,res) => {
     try {
         const user = await updateUser(req);
         res.status(200).send(user);
